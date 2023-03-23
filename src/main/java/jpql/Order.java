@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +31,10 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name="MEMBER_ID") // 연관관계 주인은 JoinColumn을 통해 명시 가능
 	private Member member;
+	
+	@OneToOne
+	@JoinColumn(name="DELIVERY_ID")
+	private Delivery delivery;
 	
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> orderItems = new ArrayList<>();
@@ -60,6 +65,16 @@ public class Order {
 		orderItem.setOrder(this);
 		
 	}
+	
+
+	public void setDelivery(Delivery delivery) {
+		
+		this.delivery = delivery;
+		delivery.setOrder(this);
+		
+	}
+	
+	/** Getters, Setters */
 
 	public Long getId() {
 		return id;
@@ -95,6 +110,10 @@ public class Order {
 
 	public Member getMember() {
 		return member;
+	}
+
+	public Delivery getDelivery() {
+		return delivery;
 	}
 	
 }
